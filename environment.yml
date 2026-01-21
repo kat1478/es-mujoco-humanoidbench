@@ -1,0 +1,15 @@
+name: es-mujoco-hb
+channels:
+  - conda-forge
+dependencies:
+  - python=3.10
+  - pip
+  - numpy
+  - pandas
+  - matplotlib
+  - tqdm
+  - pytorch
+  - cpuonly
+  - pip:
+      - gymnasium[mujoco]
+      - humanoid-bench
