@@ -1,6 +1,7 @@
-name: es-mujoco-hb
+name: es-rl
 channels:
   - conda-forge
+  - pytorch
 dependencies:
   - python=3.10
   - pip
@@ -10,6 +11,8 @@ dependencies:
   - tqdm
   - pytorch
   - cpuonly
+  - pyyaml
   - pip:
+      - gymnasium==0.29.1
+      - mujoco==3.1.1
       - gymnasium[mujoco]
-      - humanoid-bench
