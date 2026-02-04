@@ -1,106 +1,108 @@
-# Evolution Strategies as a Scalable Alternative to Reinforcement Learning
+# Evolution Strategies for MuJoCo & HumanoidBench
 
-Implementacja algorytmu Evolution Strategies (ES) na podstawie artykułu:
+This repository implements Evolution Strategies (ES) following Salimans et al. (2017) and contains experiments reproducing and adapting the method for MuJoCo HalfCheetah and several HumanoidBench tasks.
 
-> Salimans, T., Ho, J., Chen, X., Sidor, S., & Sutskever, I. (2017).
-> _Evolution Strategies as a Scalable Alternative to Reinforcement Learning_.
-> arXiv:1703.03864
+Author: Katarzyna Kadyszewska
 
-## Autorzy projektu
+Overview
 
-- Katarzyna Kadyszewska
+- **Goal**: replicate ES results on HalfCheetah-v4 and evaluate/optimize ES on HumanoidBench tasks: `h1hand-walk-v0`, `h1hand-reach-v0`, `h1hand-push-v0`.
+- **Key techniques**: antithetic sampling, fitness shaping (rank transforms), observation normalization, weight decay.
 
-## Cel projektu
+Quick results summary
 
-1. **Replikacja** wyników ES na środowisku MuJoCo HalfCheetah-v4
-2. **Optymalizacja** algorytmu ES na trzech środowiskach HumanoidBench:
-   - h1hand-walk-v0
-   - h1hand-reach-v0
-   - h1hand-push-v0
+- **HalfCheetah-v4**: best reward ~483.6 (partial replication, 1M timesteps budget)
+- **h1hand-walk-v0**: final mean reward ~7.7 (requires VBN for better locomotion)
+- **h1hand-reach-v0**: high variance, unstable convergence with 25 iterations
+- **h1hand-push-v0**: clear improvement trend, final reward improvements observed
 
-## Instalacja
+Installation
 
-### Wymagania
+Prerequisites:
 
 - Python 3.10
-- Mamba lub Conda
+- Mamba or Conda
 
-### Tworzenie środowiska
+Create environment and install dependencies:
 
 ```bash
-# Używając mamby (rekomendowane)
+# From repository root
 mamba env create -f environment.yml
-
-# Lub używając condy
+# or
 conda env create -f environment.yml
 
-# Aktywacja środowiska
+# Activate the environment
 mamba activate es-rl
-# lub
+# or
 conda activate es-rl
 ```
 
-## Struktura projektu
+Additional setup
 
+```bash
+# Clone and install HumanoidBench (required for humanoid experiments)
+git clone https://github.com/carlosferrazza/humanoid-bench.git
+cd humanoid-bench && pip install -e . && cd ..
+
+# If you run into NumPy compatibility issues
+pip install "numpy<2.0"
+
+# For headless render on WSL2 or servers
+export MUJOCO_GL=egl
 ```
+
+Project structure
+
+```text
 es-mujoco-humanoidbench/
-├── src/
-│   ├── policy.py           # Sieć neuronowa (MLP)
-│   ├── es_algorithm.py     # Główny algorytm ES
-│   └── utils.py            # Funkcje pomocnicze
-├── experiments/
-│   ├── run_halfcheetah.py  # Eksperyment replikacji
-│   └── run_humanoid.py     # Eksperymenty HumanoidBench
-├── results/                # Wyniki eksperymentów
-├── configs/                # Konfiguracje
-├── environment.yml         # Zależności conda/mamba
-└── README.md
+├── src/                 # core implementation: policy, ES algorithm, utilities
+├── experiments/         # experiment scripts (HalfCheetah, HumanoidBench)
+├── results/             # training logs, checkpoints, plots
+├── configs/             # experiment configurations
+├── environment.yml      # conda/mamba dependencies
+└── README.md            # this file
 ```
 
-## Uruchomienie
+Running experiments
 
-### Szybki test
+Quick test (verify installation):
 
 ```bash
-cd experiments
-python run_halfcheetah.py --quick
+python experiments/run_halfcheetah_optimized.py --quick
 ```
 
-### Pełny eksperyment na HalfCheetah
+Full runs:
 
 ```bash
-python run_halfcheetah.py --timesteps 500000
+# HalfCheetah (replication)
+python experiments/run_halfcheetah_optimized.py --timesteps 1000000
+
+# All HumanoidBench experiments
+python experiments/run_humanoid.py --env all --steps 1000000
+
+# Single HumanoidBench environment
+python experiments/run_humanoid.py --env h1hand-walk-v0 --steps 1000000
 ```
 
-### Parametry
+Common command-line flags
 
-- `--timesteps`: Liczba kroków treningowych (domyślnie: 500000)
-- `--population`: Rozmiar populacji (domyślnie: 40)
-- `--sigma`: Odchylenie standardowe szumu (domyślnie: 0.02)
-- `--lr`: Learning rate (domyślnie: 0.01)
-- `--seed`: Ziarno losowości (domyślnie: 42)
+- `--timesteps` / `--steps`: total environment timesteps to run
+- `--population`: population size (default 40)
+- `--sigma`: noise std (default 0.02)
+- `--lr`: learning rate (default 0.01)
+- `--seed`: random seed (default 42)
 
-## Algorytm ES
+Reproducibility notes
 
-Evolution Strategies optymalizuje parametry polityki poprzez:
+- Experiments were run on a workstation with 8 logical threads and 16 GB RAM (WSL2/Ubuntu 24.04). Results vary with CPU count and randomness.
+- For HumanoidBench locomotion tasks, Virtual Batch Normalization (VBN) and larger computational budgets significantly improve performance.
 
-1. **Perturbacje parametrów**: Dodanie szumu gaussowskiego do wag sieci
-2. **Ewaluacja**: Ocena każdej wersji polityki w środowisku
-3. **Estymacja gradientu**: Obliczenie kierunku poprawy na podstawie nagród
-4. **Aktualizacja**: Zmiana parametrów w kierunku gradientu
+Citation
 
-### Kluczowe techniki:
+If you use this code or results, please cite:
 
-- **Antithetic sampling**: Parowanie perturbacji ε i -ε dla redukcji wariancji
-- **Fitness shaping**: Rangowanie nagród dla stabilności
-- **Normalizacja obserwacji**: Skalowanie wejść dla lepszej generalizacji
+Salimans, T., Ho, J., Chen, X., Sidor, S., & Sutskever, I. (2017). Evolution Strategies as a Scalable Alternative to Reinforcement Learning. arXiv:1703.03864
 
-## Wyniki
+Additional references
 
-_(Będą uzupełnione po przeprowadzeniu eksperymentów)_
-
-## Bibliografia
-
-1. Salimans, T., et al. (2017). Evolution Strategies as a Scalable Alternative to Reinforcement Learning. arXiv:1703.03864
-2. OpenAI. (2017). Evolution Strategies Starter. GitHub repository.
-3. HumanoidBench. (2024). Humanoid Manipulation and Locomotion Benchmark.
+- HumanoidBench: https://humanoid-bench.github.io
