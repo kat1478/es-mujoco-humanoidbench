@@ -1,0 +1,99 @@
+{
+  "experiment": "h1hand-reach-v0",
+  "config": {
+    "env_name": "h1hand-reach-v0",
+    "population_size": 40,
+    "sigma": 0.02,
+    "learning_rate": 0.01,
+    "max_episode_steps": 200,
+    "seed": 42
+  },
+  "results": {
+    "final_reward_mean": 227.9190887510309,
+    "final_reward_std": 270.60269219742855,
+    "best_reward": 141.48928833007812,
+    "total_timesteps": 56000,
+    "total_iterations": 7,
+    "total_time_seconds": 246.52836680412292
+  },
+  "history": [
+    {
+      "iteration": 1,
+      "timesteps": 8000,
+      "mean_reward": 137.14743041992188,
+      "max_reward": 971.747802734375,
+      "min_reward": -90.30350494384766,
+      "std_reward": 217.19509887695312,
+      "best_reward": 137.14743041992188,
+      "episodes": 40,
+      "steps_this_iter": 8000
+    },
+    {
+      "iteration": 2,
+      "timesteps": 16000,
+      "mean_reward": 102.12216186523438,
+      "max_reward": 586.3305053710938,
+      "min_reward": -139.06369018554688,
+      "std_reward": 169.4402618408203,
+      "best_reward": 137.14743041992188,
+      "episodes": 40,
+      "steps_this_iter": 8000
+    },
+    {
+      "iteration": 3,
+      "timesteps": 24000,
+      "mean_reward": 140.0589141845703,
+      "max_reward": 730.6611938476562,
+      "min_reward": -261.1415710449219,
+      "std_reward": 235.90866088867188,
+      "best_reward": 140.0589141845703,
+      "episodes": 40,
+      "steps_this_iter": 8000
+    },
+    {
+      "iteration": 4,
+      "timesteps": 32000,
+      "mean_reward": 141.48928833007812,
+      "max_reward": 594.919677734375,
+      "min_reward": -182.89720153808594,
+      "std_reward": 193.32916259765625,
+      "best_reward": 141.48928833007812,
+      "episodes": 40,
+      "steps_this_iter": 8000
+    },
+    {
+      "iteration": 5,
+      "timesteps": 40000,
+      "mean_reward": 139.41351318359375,
+      "max_reward": 681.7459716796875,
+      "min_reward": -120.74478149414062,
+      "std_reward": 155.6282196044922,
+      "best_reward": 141.48928833007812,
+      "episodes": 40,
+      "steps_this_iter": 8000
+    },
+    {
+      "iteration": 6,
+      "timesteps": 48000,
+      "mean_reward": 116.91682434082031,
+      "max_reward": 725.17431640625,
+      "min_reward": -93.30326080322266,
+      "std_reward": 177.78257751464844,
+      "best_reward": 141.48928833007812,
+      "episodes": 40,
+      "steps_this_iter": 8000
+    },
+    {
+      "iteration": 7,
+      "timesteps": 56000,
+      "mean_reward": 104.062744140625,
+      "max_reward": 722.0820922851562,
+      "min_reward": -96.32633209228516,
+      "std_reward": 180.8536376953125,
+      "best_reward": 141.48928833007812,
+      "episodes": 40,
+      "steps_this_iter": 8000
+    }
+  ],
+  "eval_history": []
+}
